@@ -1,0 +1,27 @@
+{
+  "name": "producerconsumer",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Arithmetic expressions generator/evaluator",
+  "author": "Michael Polyak mpolyak@gmail.com",
+  "license": "MIT",
+  "engines": {
+    "node": ">=4.4.1"
+  },
+  "bin": {
+    "mocha": "./bin/mocha",
+    "_mocha": "./bin/_mocha"
+  },
+  "scripts": {
+    "test": "mocha",
+    "evaluator": "node src/evaluator.js 3000",
+    "generator-slow": "node src/generator.js 3000 1",
+    "generator-fast": "node src/generator.js 3000 0"
+  },
+  "dependencies": {
+    "chai": "~3.5.0",
+    "mocha": "~2.4.5",
+    "sinon": "~1.17.3",
+    "ws": "~1.0.1"
+  }
+}

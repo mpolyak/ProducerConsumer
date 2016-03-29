@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="Monitor Evaluator Performance">
+    <meta name="author" content="Michael Polyak mpolyak@gmail.com">
+
+    <title>Evaluator Monitor</title>
+
+    <style>
+        html, body
+        {
+            margin: 0;
+        }
+
+        #canvas-2d
+        {
+            position: absolute;
+
+            left: 0;
+            top: 0;
+
+            background: black;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="canvas-2d" />
+
+    <script>
+        (function () {
+            "use strict";
+
+            var canvas, context, opsec = 0, opmax = 0, start = 0, count = 0, buffer = [];
+
+            function drawLabel()
+            {
+                var fontSize = Math.max(12, Math.min(54, Math.floor(Math.min(canvas.width, canvas.height) / 10)));
+
+                context.font = fontSize + "px Arial";
+                context.fillStyle = "white";
+
+                context.fillText(opsec + " op/sec", 15, 10 + fontSize);
+            }
+
+            function drawGraph()
+            {
+                if (!buffer.length)
+                    return;
+
+                var lineWidth = Math.max(3, Math.min(10, Math.floor(Math.min(canvas.width, canvas.height) / 100)));
+
+                context.strokeStyle = "white";
+                context.lineWidth = lineWidth;
+
+                var size = canvas.height / 3, offset = (canvas.height - (size / 2)),
+                    hstep = canvas.width / 60, vstep = opmax > 0 ? (canvas.height - size) / opmax : 0;
+
+                context.beginPath();
+
+                context.moveTo(0, offset - (buffer[0] * vstep));
+
+                for (var i = 1; i < buffer.length; i ++)
+                    context.lineTo(i * hstep, offset - (buffer[i] * vstep));
+
+                context.stroke();
+            }
+
+            function update()
+            {
+                var time = Date.now(), delta = (time - start) / 1000;
+
+                // Update operations per second metrics.
+                if (delta >= 1)
+                {
+                    opsec = opmax = Math.round(count / delta);
+
+                    start = time;
+                    count = 0;
+
+                    buffer = buffer.slice(-59);
+
+                    for (var i = 0; i < buffer.length; i ++)
+                        opmax = Math.max(opmax, buffer[i]);
+
+                    buffer.push(opsec);
+                }
+
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+
+                context.clearRect(0, 0, canvas.width, canvas.height);
+
+                drawLabel();
+                drawGraph();
+
+                requestAnimationFrame(update);
+            }
+
+            function connect()
+            {
+                // Connect to the evaluator reporter.
+                var socket = new WebSocket("ws://127.0.0.1:8000");
+
+                socket.onclose = function ()
+                {
+                    // Attempt to reconnect in 5 seconds.
+                    setTimeout(function () { connect(); }, 5 * 1000);
+                };
+
+                socket.onmessage = function (message)
+                {
+                    // Update operations count.
+                    count = Math.max(count, Number(message.data) || 0);
+                };
+            }
+
+            window.onload = function ()
+            {
+                canvas = document.getElementById("canvas-2d");
+
+                if (!canvas)
+                {
+                    console.error("Unable to find canvas element.");
+                    return;
+                }
+
+                context = canvas.getContext("2d");
+
+                if (!context)
+                {
+                    console.error("Unable to get 2d context for canvas.");
+                    return;
+                }
+
+                connect();
+                update();
+            };
+        })();
+    </script>
+</body>
+</html>
