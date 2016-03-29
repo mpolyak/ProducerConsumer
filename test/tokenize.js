@@ -87,7 +87,7 @@ describe("Tokenize", () =>
                 tokenize.write("-273=");
             });
 
-            it("should match fractional", (done) =>
+            it("should match decimal", (done) =>
             {
                 const tokenize = new Tokenize();
 
