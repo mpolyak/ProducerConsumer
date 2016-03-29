@@ -36,6 +36,8 @@ npm run evaluator
 Which will start Evaluator service on port 3000.
 It also runs a reporting service on port 8000 which enables you to monitor the Evaluator op/sec performance by opening **monitor.html** file.
 
+![Alt text](/monitor.png?raw=true "Evaluator Monitor")
+
 ### Generator
 
 **node src/generator.js [Port Number or Unix Socket] [Delay in Seconds]**
