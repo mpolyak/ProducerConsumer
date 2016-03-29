@@ -21,7 +21,7 @@ npm test
 
 ### Evaluator
 
-**node src/evaluator.js [Port Number or Unix Socket]**
+**Usage: node src/evaluator.js [Port Number or Unix Socket]**
 
 ```bash
 node src/evaluator.js 3000
@@ -40,7 +40,7 @@ It also runs a reporting service on port 8000 which enables you to monitor the E
 
 ### Generator
 
-**node src/generator.js [Port Number or Unix Socket] [Delay in Seconds]**
+**Usage: node src/generator.js [Port Number or Unix Socket] [Delay in Seconds]**
 
 ```bash
 node src/generator.js 3000 1
