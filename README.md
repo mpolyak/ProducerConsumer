@@ -101,3 +101,8 @@ Connects to port 3000 and generates arithmetic expressions at the fastest possib
 20:10:39.903 (503 op/sec): Sending expression 88-(-56--75)=
 20:10:39.904 (503 op/sec): Received result 69
 ```
+## Design
+
+![Alt text](/generator_activity.png?raw=true "Generator")
+![Alt text](/evaluator_activity.png?raw=true "Evaluator")
+![Alt text](/monitor_activity.png?raw=true "Monitor")
