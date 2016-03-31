@@ -1,6 +1,12 @@
 # ProducerConsumer
 Arithmetic expressions generator/evaluator services
 
+## Description
+
+The application consists of two separate services: the Generator and the Evaluator. Both services operator on the principal of stream processing, where data flows between a set of transfom operations within each service.
+
+The Generator service will create a random arithmetic expression string and send it to the Evaluator to solve via a TCP or Unix socket. The Evaluator will tokenize the expression string, verify it's validity and attempt to solve it, sending the result back to the Generator.
+
 ## Requirements
 
 NodeJS v.4.4.1 or above, you may use the provided Vagrantfile for a simulation enviornment.
