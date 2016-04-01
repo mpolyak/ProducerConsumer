@@ -106,3 +106,4 @@ Connects to port 3000 and generates arithmetic expressions at the fastest possib
 ![Alt text](/generator_activity.png?raw=true "Generator")
 ![Alt text](/evaluator_activity.png?raw=true "Evaluator")
 ![Alt text](/monitor_activity.png?raw=true "Monitor")
+![Alt text](/producerconsumer_sequence.png?raw=true "Producer Consumer")
